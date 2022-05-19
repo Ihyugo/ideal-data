@@ -15,27 +15,27 @@ import TableRow from "@material-ui/core/TableRow";
 
 const columns = [
   { id: "t_id", label: "id", minWidth: 30 },
+  { id: "user_name", label: "user name", minWidth: 100 },
   { id: "text", label: "text", minWidth: 400 },
   { id: "favorite_count", label: "favorite_count", minWidth: 30 },
   { id: "retweet_count", label: "retweet_count", minWidth: 30 },
   { id: "user_id", label: "user id", minWidth: 30 },
   { id: "user_screen_name", label: "user screen name", minWidth: 30 },
-  { id: "user_name", label: "user name", minWidth: 100 },
-  { id: "user_description", label: "user description", minWidth: 200 },
-  { id: "user_friends_count", label: "user friends ccount", minWidth: 30 },
-  { id: "user_followers_count", label: "user followers count", minWidth: 30 },
-  { id: "user_following", label: "user following", minWidth: 30 },
-  {
-    id: "user_profile_image_url",
-    label: "user profile image url",
-    minWidth: 30,
-  },
-  {
-    id: "user_profile_background_image_url",
-    label: "user profile background image url",
-    minWidth: 30,
-  },
-  { id: "user_url", label: "user url", minWidth: 30 },
+  // { id: "user_description", label: "user description", minWidth: 200 },
+  // { id: "user_friends_count", label: "user friends ccount", minWidth: 30 },
+  // { id: "user_followers_count", label: "user followers count", minWidth: 30 },
+  // { id: "user_following", label: "user following", minWidth: 30 },
+  // {
+  //   id: "user_profile_image_url",
+  //   label: "user profile image url",
+  //   minWidth: 30,
+  // },
+  // {
+  //   id: "user_profile_background_image_url",
+  //   label: "user profile background image url",
+  //   minWidth: 30,
+  // },
+  // { id: "user_url", label: "user url", minWidth: 30 },
 ];
 
 const useStyles = makeStyles({
@@ -88,7 +88,8 @@ export default function GetTweetData() {
   };
 
   const getTweet = () => {
-    const condition = ["あったらいいな サービス", 100];
+    const condition = ["あったらいいな サービス アプリ", 100];
+    // const pathName = "http://127.0.0.1:5000/post_data";
     const pathName = "http://search-ideal-data.herokuapp.com/post_data";
 
     axios({
