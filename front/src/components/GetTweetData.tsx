@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import React from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -13,6 +13,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 
+import ModalTweet from "./ModalTweet";
+
 const columns = [
   { id: "t_id", label: "id", minWidth: 30 },
   { id: "user_name", label: "user name", minWidth: 100 },
@@ -21,21 +23,6 @@ const columns = [
   { id: "retweet_count", label: "retweet_count", minWidth: 30 },
   { id: "user_id", label: "user id", minWidth: 30 },
   { id: "user_screen_name", label: "user screen name", minWidth: 30 },
-  // { id: "user_description", label: "user description", minWidth: 200 },
-  // { id: "user_friends_count", label: "user friends ccount", minWidth: 30 },
-  // { id: "user_followers_count", label: "user followers count", minWidth: 30 },
-  // { id: "user_following", label: "user following", minWidth: 30 },
-  // {
-  //   id: "user_profile_image_url",
-  //   label: "user profile image url",
-  //   minWidth: 30,
-  // },
-  // {
-  //   id: "user_profile_background_image_url",
-  //   label: "user profile background image url",
-  //   minWidth: 30,
-  // },
-  // { id: "user_url", label: "user url", minWidth: 30 },
 ];
 
 const useStyles = makeStyles({
@@ -67,6 +54,12 @@ function shapeData(data: any) {
 }
 
 export default function GetTweetData() {
+  const defalutRow = {
+    modal: false,
+    row: null,
+  };
+  const [showModal, setShowModal] = useState(defalutRow);
+  // const [showModal, setShowModal] = useState(false);
   const classes = useStyles();
   const [tweetData, setTweetData] = useState([]);
 
@@ -87,10 +80,19 @@ export default function GetTweetData() {
     return tData;
   };
 
+  const clickModal = (row: any) => {
+    setShowModal({ modal: true, row });
+    // setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal({ modal: false, row: null });
+  };
+
   const getTweet = () => {
     const condition = ["あったらいいな サービス アプリ", 100];
-    // const pathName = "http://127.0.0.1:5000/post_data";
-    const pathName = "http://search-ideal-data.herokuapp.com/post_data";
+    const pathName = "http://127.0.0.1:5000/post_data";
+    // const pathName = "http://search-ideal-data.herokuapp.com/post_data";
 
     axios({
       method: "POST",
@@ -108,11 +110,14 @@ export default function GetTweetData() {
       });
   };
 
-  console.log(tweetData);
+  useEffect(() => {
+    getTweet();
+  }, []);
 
   return (
     <>
       <div className="App">
+        <ModalTweet showModal={showModal} closeModal={closeModal} />
         <Button variant="contained" onClick={() => getTweet()}>
           Search Tweet
         </Button>
@@ -151,7 +156,10 @@ export default function GetTweetData() {
                             {columns.map((column) => {
                               const value = row[column.id];
                               return (
-                                <TableCell key={column.id}>
+                                <TableCell
+                                  key={column.id}
+                                  onClick={() => clickModal(row)}
+                                >
                                   {/* {column.format && typeof value === "number"
                                     ? column.format(value)
                                     : value} */}
