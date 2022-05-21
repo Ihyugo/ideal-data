@@ -49,3 +49,18 @@
   padding: 1em;
   background: #fff;
 }
+
+.link-tag {
+  color: blue;
+  text-align: right;
+}
+
+.link-image {
+  height: 20px;
+  width: 20px;
+}
+
+.account-icon {
+  margin-top: -15%;
+  height: 70px;
+}

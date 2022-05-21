@@ -6,7 +6,7 @@ import GetTweetData from "./GetTweetData";
 function App() {
   return (
     <>
-      <header className="App-header"></header>
+      <header className="App-header">〜こんなサービスあったらいいな〜</header>
       <GetTweetData />
     </>
   );

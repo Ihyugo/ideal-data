@@ -1,36 +1,115 @@
-import React from "react";
+import React, { useState } from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+// import { Button } from "@mui/material";
+import OpenImage from "./open-icon.png";
+import DefaultImage from "./defaultImage.jpeg";
+import ColumnData from "./ColumnData";
 
-const modalContent = {
-  background: "white",
-  padding: "10px",
-  borderRadius: "3px",
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
 };
 
-const overlay = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  backgroundColor: "rgba(0,0,0,0.5)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-} as React.CSSProperties;
+function openWindow(id: string, name: string) {
+  window.open("https://twitter.com/" + name + "/status/" + id, "undefined");
+}
 
 function ModalTweet(props: any) {
+  const [hidden, setHidden] = useState(false);
+  const sMRow = props.showModal.row;
+
   return (
     <>
-      {props.showModal.modal && (
-        <>
-          <div id="overlay" style={overlay}>
-            <div id="modalContent" style={modalContent}>
-              {props.showModal.row.text}
-              <button onClick={() => props.closeModal()}>Close</button>
-            </div>
+      <Modal
+        open={props.showModal.modal}
+        onClose={() => props.closeModal()}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 1000 }}>
+          {sMRow.user_profile_background_image_url ? (
+            <>
+              <img
+                src={sMRow.user_profile_background_image_url}
+                style={{ width: "100%", height: 200 }}
+              />
+            </>
+          ) : (
+            <>
+              <img src={DefaultImage} style={{ width: "100%", height: 200 }} />
+            </>
+          )}
+          {sMRow.user_profile_image_url && (
+            <>
+              <img
+                className="account-icon"
+                src={sMRow.user_profile_image_url}
+                style={{ borderRadius: "50%" }}
+              />
+            </>
+          )}
+          <br />
+          {sMRow.user_name && (
+            <>
+              <div style={{ fontSize: 20, fontWeight: "bold" }}>
+                {sMRow.user_name}
+              </div>
+            </>
+          )}
+          {sMRow.user_screen_name && <>@{sMRow.user_screen_name}</>}
+          <div
+            className="link-tag"
+            onClick={() => openWindow(sMRow.t_id, sMRow.user_screen_name)}
+          >
+            open Tweet data
+            <img className="link-image" src={OpenImage} />
           </div>
-        </>
-      )}
+          <br />
+
+          <ColumnData title="本文" data={sMRow.text} />
+
+          <br />
+
+          {hidden ? (
+            <div onClick={() => setHidden(false)}>hidden</div>
+          ) : (
+            <div onClick={() => setHidden(true)}>open</div>
+          )}
+
+          {hidden && (
+            <table>
+              <thead>
+                <tr>
+                  <th>Tweet Data</th>
+                  <th>value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(sMRow).map((key) => {
+                  return (
+                    <>
+                      <tr key={key}>
+                        <th>{key}</th>
+                        <th>{sMRow[key]}</th>
+                      </tr>
+                    </>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </Box>
+      </Modal>
     </>
   );
 }
