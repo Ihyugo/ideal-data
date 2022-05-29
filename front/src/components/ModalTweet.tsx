@@ -3,7 +3,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 // import { Button } from "@mui/material";
 import OpenImage from "./open-icon.png";
-import DefaultImage from "./defaultImage.jpeg";
 import ColumnData from "./ColumnData";
 
 const style = {
@@ -18,6 +17,7 @@ const style = {
   pt: 2,
   px: 4,
   pb: 3,
+  borderRadius: "20px",
 };
 
 function openWindow(id: string, name: string) {
@@ -37,18 +37,10 @@ function ModalTweet(props: any) {
         aria-describedby="child-modal-description"
       >
         <Box sx={{ ...style, width: 1000 }}>
-          {sMRow.user_profile_background_image_url ? (
-            <>
-              <img
-                src={sMRow.user_profile_background_image_url}
-                style={{ width: "100%", height: 200 }}
-              />
-            </>
-          ) : (
-            <>
-              <img src={DefaultImage} style={{ width: "100%", height: 200 }} />
-            </>
-          )}
+          <img
+            src={"https://abs.twimg.com/images/themes/theme1/bg.png"}
+            style={{ width: "100%", height: 130 }}
+          />
           {sMRow.user_profile_image_url && (
             <>
               <img
@@ -87,26 +79,28 @@ function ModalTweet(props: any) {
           )}
 
           {hidden && (
-            <table>
-              <thead>
-                <tr>
-                  <th>Tweet Data</th>
-                  <th>value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(sMRow).map((key) => {
-                  return (
-                    <>
-                      <tr key={key}>
-                        <th>{key}</th>
-                        <th>{sMRow[key]}</th>
-                      </tr>
-                    </>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div style={{ overflow: "auto", height: "30vh" }}>
+              <table style={{ height: "70vh" }}>
+                <thead>
+                  <tr>
+                    <th>Tweet Data</th>
+                    <th>value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.keys(sMRow).map((key) => {
+                    return (
+                      <>
+                        <tr key={key}>
+                          <th>{key}</th>
+                          <th>{sMRow[key]}</th>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
         </Box>
       </Modal>

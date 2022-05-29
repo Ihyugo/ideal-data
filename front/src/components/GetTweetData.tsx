@@ -78,8 +78,8 @@ export default function GetTweetData() {
 
   const getTweet = () => {
     const condition = ["あったらいいな サービス アプリ", 100];
-    const pathName = "http://127.0.0.1:5000/post_data";
-    // const pathName = "http://search-ideal-data.herokuapp.com/post_data";
+    // const pathName = "http://127.0.0.1:5000/post_data";
+    const pathName = "http://search-ideal-data.herokuapp.com/post_data";
 
     axios({
       method: "POST",
